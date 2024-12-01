@@ -11,11 +11,21 @@ steps:
 
   - script: |
       dotnet restore
+    displayName: "Restore dependencies"
+    workingDirectory: 'StringLibrary'
+
+  - script: |
       dotnet build --configuration Release
-      dotnet pack -c Release -o $(Build.ArtifactStagingDirectory)
-    displayName: "Build and Pack NuGet Package"
+    displayName: "Build project"
+    workingDirectory: 'StringLibrary'
+
+  - script: |
+      dotnet pack --configuration Release --output $(Build.ArtifactStagingDirectory)
+    displayName: "Pack NuGet Package"
+    workingDirectory: 'StringLibrary'
 
   - task: NuGetAuthenticate@1
+    displayName: "Authenticate with Azure Artifacts"
 
   - script: |
       dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg \
