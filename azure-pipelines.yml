@@ -1,0 +1,24 @@
+trigger:
+  - main
+
+pool:
+  name: self-hosted-agent-TM-ZEN4
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      version: "8.x"
+
+  - script: |
+      dotnet restore
+      dotnet build --configuration Release
+      dotnet pack -c Release -o $(Build.ArtifactStagingDirectory)
+    displayName: "Build and Pack NuGet Package"
+
+  - task: NuGetAuthenticate@1
+
+  - script: |
+      dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg \
+        --source "https://pkgs.dev.azure.com/tmahmud/COMP367-Lab4-CI/_packaging/MyNuGetFeed/nuget/v3/index.json" \
+        --api-key $(System.AccessToken)
+    displayName: "Push NuGet Package to Azure Artifacts"
