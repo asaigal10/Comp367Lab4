@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  name: self-hosted-agent-TM-ZEN4
+  name: Self-Hosted
 
 steps:
   - task: UseDotNet@2
@@ -19,6 +19,6 @@ steps:
 
   - script: |
       dotnet nuget push $(Build.ArtifactStagingDirectory)/*.nupkg \
-        --source "https://pkgs.dev.azure.com/tmahmud/COMP367-Lab4-CI/_packaging/MyNuGetFeed/nuget/v3/index.json" \
+        --source "https://pkgs.dev.azure.com/AmritSaigalLab4/_packaging/AmritSaigalLab4/nuget/v3/index.json" \
         --api-key $(System.AccessToken)
     displayName: "Push NuGet Package to Azure Artifacts"
