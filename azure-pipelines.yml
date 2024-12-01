@@ -16,14 +16,14 @@ steps:
       echo "Restoring dependencies..."
       dotnet restore
     displayName: "Restore dependencies"
-    workingDirectory: 'Comp367Lab4/StringLibrary'
+    workingDirectory: 'StringLibrary'
 
   # Build project
   - script: |
       echo "Building project..."
       dotnet build --configuration Release
     displayName: "Build project"
-    workingDirectory: 'Comp367Lab4/StringLibrary' 
+    workingDirectory: 'StringLibrary' 
 
   # Pack NuGet package
   - script: |
@@ -32,7 +32,7 @@ steps:
       echo "Contents of $(Build.ArtifactStagingDirectory):"
       dir "$(Build.ArtifactStagingDirectory)"
     displayName: "Pack NuGet Package"
-    workingDirectory: 'Comp367Lab4/StringLibrary' 
+    workingDirectory: 'StringLibrary' 
 
   # Authenticate with Azure Artifacts
   - task: NuGetAuthenticate@1
